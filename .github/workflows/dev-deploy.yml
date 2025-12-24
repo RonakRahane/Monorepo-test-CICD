@@ -33,6 +33,11 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.DEV_SSH_KEY }}
           script: |
+            if [ ! -d "/home/ubuntu/app" ]; then
+              echo "Directory does not exist. Cloning..."
+              git clone https://github.com/RonakRahane/Monorepo-test-CICD.git /home/ubuntu/app
+            fi
+
             cd /home/ubuntu/app
             git pull origin main
             pnpm install --frozen-lockfile
