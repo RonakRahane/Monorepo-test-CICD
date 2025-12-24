@@ -33,6 +33,7 @@ jobs:
           host: ${{ secrets.PROD_EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.PROD_SSH_KEY }}
+          command_timeout: 30m
           script: |
             if [ ! -d "/home/ubuntu/app" ]; then
               echo "Directory does not exist. Cloning..."
