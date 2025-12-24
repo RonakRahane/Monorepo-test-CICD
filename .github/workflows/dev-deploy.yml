@@ -39,8 +39,16 @@ jobs:
               git clone https://github.com/RonakRahane/Monorepo-test-CICD.git /home/ubuntu/app
             fi
 
+            ssh ubuntu@$EC2_HOST << 'EOF'
+            export NVM_DIR="$HOME/.nvm"
+            source "$NVM_DIR/nvm.sh"
+
+            node -v
+            pnpm -v
+            pm2 -v
+
             cd /home/ubuntu/app
-            git pull origin main
+
             pnpm install --frozen-lockfile
             pnpm turbo run build --filter=web
             pnpm turbo run build --filter=api
@@ -48,6 +56,9 @@ jobs:
 
             pm2 start ecosystem.config.js --only web-dev --update-env || pm2 restart web-dev --update-env
             pm2 start ecosystem.config.js --only api-dev --update-env || pm2 restart api-dev --update-env
-            pm2 start ecosystem.config.js --only ws-dev --update-env  || pm2 restart ws-dev --update-env
+            pm2 start ecosystem.config.js --only ws-dev  --update-env || pm2 restart ws-dev  --update-env
 
             pm2 save
+            EOF
+
+
