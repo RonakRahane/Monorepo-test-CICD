@@ -4,7 +4,11 @@ import WebSocket, { WebSocketServer } from "ws";
 const PORT = Number(process.env.PORT || process.env.WS_PORT);
 if (!PORT) throw new Error("PORT is not defined");
 
-const wss = new WebSocketServer({ port: PORT });
+const wss = new WebSocketServer({
+  port: PORT,
+  host: "0.0.0.0"
+});
+
 
 wss.on("connection", (socket) => {
   console.log("Client connected");

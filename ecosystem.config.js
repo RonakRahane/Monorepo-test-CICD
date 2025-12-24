@@ -1,36 +1,38 @@
-require('dotenv').config();
-
 module.exports = {
   apps: [
+    
     {
       name: "web-local",
       cwd: "./apps/web",
       script: "pnpm",
       args: "start",
       env: {
-        NODE_ENV: "development",
+        NODE_ENV: "development"
       }
     },
+
     {
       name: "api-local",
       cwd: "./apps/api",
       script: "pnpm",
       args: "start",
+      env_file: "../../.env",
       env: {
-        NODE_ENV: "development",
-        ENV_FILE_PATH: "../../.env"
+        NODE_ENV: "development"
       }
     },
+
     {
       name: "ws-local",
       cwd: "./apps/ws",
       script: "pnpm",
       args: "start",
+      env_file: "../../.env",
       env: {
-        NODE_ENV: "development",
-        ENV_FILE_PATH: "../../.env"
+        NODE_ENV: "development"
       }
     },
+
     {
       name: "web-dev",
       cwd: "./apps/web",
@@ -40,24 +42,26 @@ module.exports = {
         NODE_ENV: "development"
       }
     },
+
     {
       name: "api-dev",
       cwd: "./apps/api",
       script: "pnpm",
       args: "start",
+      env_file: "/home/ubuntu/.env.api.dev",
       env: {
-        NODE_ENV: "development",
-        ENV_FILE_PATH: "/home/ubuntu/.env.api.dev"
+        NODE_ENV: "development"
       }
     },
+
     {
       name: "ws-dev",
       cwd: "./apps/ws",
       script: "pnpm",
       args: "start",
+      env_file: "/home/ubuntu/.env.ws.dev",
       env: {
-        NODE_ENV: "development",
-        ENV_FILE_PATH: "/home/ubuntu/.env.ws.dev"
+        NODE_ENV: "development"
       }
     },
 
@@ -70,24 +74,26 @@ module.exports = {
         NODE_ENV: "production"
       }
     },
+
     {
       name: "api-prod",
       cwd: "./apps/api",
       script: "pnpm",
       args: "start",
+      env_file: "/home/ubuntu/.env.api.prod",
       env: {
-        NODE_ENV: "production",
-        ENV_FILE_PATH: "/home/ubuntu/.env.api.prod"
+        NODE_ENV: "production"
       }
     },
+
     {
       name: "ws-prod",
       cwd: "./apps/ws",
       script: "pnpm",
       args: "start",
+      env_file: "/home/ubuntu/.env.ws.prod",
       env: {
-        NODE_ENV: "production",
-        ENV_FILE_PATH: "/home/ubuntu/.env.ws.prod"
+        NODE_ENV: "production"
       }
     }
   ]

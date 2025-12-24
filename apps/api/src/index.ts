@@ -16,7 +16,11 @@ if (!WS_URL) throw new Error("WS_URL is not defined");
 if (!CORS_ORIGIN) throw new Error("CORS_ORIGIN is not defined");
 
 /* ========= MIDDLEWARE ========= */
-app.use(cors({ origin: CORS_ORIGIN }));
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
+
 app.use(express.json());
 
 /* ========= WS CLIENT ========= */
@@ -62,6 +66,6 @@ app.post("/tasks", async (req, res) => {
 });
 
 /* ========= START ========= */
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`API running on port ${PORT}`);
 });
