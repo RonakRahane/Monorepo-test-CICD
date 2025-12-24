@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "TSX_IPC=0 tsx watch src/index.ts",
+    "start": "TSX_IPC=0 tsx src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,6 +14,7 @@
   "dependencies": {
     "@prisma/client": "6",
     "prisma": "6",
+    "dotenv": "^16.4.5",
     "ws": "^8.18.3"
   },
   "devDependencies": {

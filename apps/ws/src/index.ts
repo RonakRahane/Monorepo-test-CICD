@@ -1,6 +1,10 @@
+import "./config";
 import WebSocket, { WebSocketServer } from "ws";
 
-const wss = new WebSocketServer({ port: 3002 });
+const PORT = Number(process.env.PORT || process.env.WS_PORT);
+if (!PORT) throw new Error("PORT is not defined");
+
+const wss = new WebSocketServer({ port: PORT });
 
 wss.on("connection", (socket) => {
   console.log("Client connected");
@@ -14,4 +18,4 @@ wss.on("connection", (socket) => {
   });
 });
 
-console.log("WebSocket server running on ws://localhost:3002");
+console.log(`WS running on port ${PORT}`);

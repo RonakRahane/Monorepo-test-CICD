@@ -1,0 +1,49 @@
+name: Dev Deployment (Monorepo)
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build affected apps
+        run: |
+          pnpm turbo run build --filter=web
+          pnpm turbo run build --filter=api
+          pnpm turbo run build --filter=ws
+
+      - name: Deploy to Dev EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEV_EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.DEV_SSH_KEY }}
+          script: |
+            cd /home/ubuntu/app
+            git pull origin main
+            pnpm install --frozen-lockfile
+            pnpm turbo run build --filter=web
+            pnpm turbo run build --filter=api
+            pnpm turbo run build --filter=ws
+
+            pm2 start ecosystem.config.js --only web-dev --update-env || pm2 restart web-dev --update-env
+            pm2 start ecosystem.config.js --only api-dev --update-env || pm2 restart api-dev --update-env
+            pm2 start ecosystem.config.js --only ws-dev --update-env  || pm2 restart ws-dev --update-env
+
+            pm2 save
