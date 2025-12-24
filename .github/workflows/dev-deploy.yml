@@ -34,12 +34,13 @@ jobs:
           key: ${{ secrets.DEV_SSH_KEY }}
           command_timeout: 30m
           script: |
+            set -e
+
             if [ ! -d "/home/ubuntu/app" ]; then
               echo "Directory does not exist. Cloning..."
               git clone https://github.com/RonakRahane/Monorepo-test-CICD.git /home/ubuntu/app
             fi
 
-            ssh ubuntu@$EC2_HOST << 'EOF'
             export NVM_DIR="$HOME/.nvm"
             source "$NVM_DIR/nvm.sh"
 
@@ -59,6 +60,3 @@ jobs:
             pm2 start ecosystem.config.js --only ws-dev  --update-env || pm2 restart ws-dev  --update-env
 
             pm2 save
-            EOF
-
-
